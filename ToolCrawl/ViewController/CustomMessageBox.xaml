@@ -1,0 +1,16 @@
+﻿<Window x:Class="ToolCrawl.ViewController.CustomMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToolCrawl.ViewController"
+        mc:Ignorable="d"
+        Title="Result" Height="150" Width="300" WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False">
+    <Grid>
+        <TextBlock Name="MessageTextBlock" Text="Result here" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   TextWrapping="Wrap" FontSize="16"/>
+
+    </Grid>
+</Window>

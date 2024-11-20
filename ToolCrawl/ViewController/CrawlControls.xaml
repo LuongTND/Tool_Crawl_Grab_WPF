@@ -1,0 +1,78 @@
+﻿<Window x:Class="ToolCrawl.ViewController.CrawlControls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToolCrawl.ViewController" 
+        xmlns:viewModel="clr-namespace:ToolCrawl.ViewModel"
+        mc:Ignorable="d"
+        Title="CrawlControls" Height="650" Width="800">
+    <!--<Grid>
+        <Label Background="Green" Content="Grab" HorizontalAlignment="Left"  Margin="35,25,0,0" VerticalAlignment="Top" Height="90" Width="48"/>
+        <TextBox Name="UserNameTextBox" Foreground="Red" HorizontalAlignment="Left" Margin="100,47,0,0" TextWrapping="Wrap" Text="UserName" VerticalAlignment="Top" Width="179" />
+        <TextBox Name="PasswordTextBox" Foreground="Red" HorizontalAlignment="Left" Margin="100,81,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="179" />
+        <Button Content="Start" HorizontalAlignment="Left" Margin="336,56,0,0" VerticalAlignment="Top" Height="33" Width="96" Command="{Binding StartCrawlCommand}"/>
+
+    </Grid>-->
+
+    <Window.DataContext>
+        <!-- Liên kết với ViewModel CrawlControlsViewModel -->
+        <viewModel:CrawlControlsViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <!-- Label "Grab" -->
+        <!--<Image HorizontalAlignment="Left" Height="49" Margin="208,15,0,0" VerticalAlignment="Top" Width="344"
+       Source="/Media/grab-merchant-horizontal-logo-green.png"/>-->
+
+        <!-- TextBox cho UserName -->
+        <TextBox Name="UserNameTextBox"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Width="179"
+                 Margin="171,138,0,0"
+                 Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
+                 Foreground="Red" />
+
+        <!-- TextBox cho Password -->
+        <TextBox Name="PasswordTextBox"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Width="179"
+                 Margin="171,187,0,0"
+                 Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                 Foreground="Red" />
+
+        <!-- Nút Start để bắt đầu Crawl -->
+        <Button x:Name="ButtonStart"
+                Content="Start Crawl"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Height="33"
+                Width="96"
+                Margin="400,153,0,0"
+                Click="Start"/>
+        <Button x:Name="ButtonStop" Content="Stop" HorizontalAlignment="Left" Margin="519,153,0,0" VerticalAlignment="Top" Height="33" Width="96" Click="Stop"/>
+
+        <!-- Nút Get Data để tải dữ liệu lịch sử -->
+        <Button Content="Get Data"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Height="33"
+                Width="96"
+                Margin="332,228,0,0"
+                Click="GetData" />
+
+        <!-- DataGrid để hiển thị dữ liệu lịch sử -->
+        <DataGrid x:Name="HistoryDataGrid"
+                  Margin="35,275,35,23"
+                  AutoGenerateColumns="True"
+                  IsReadOnly="True"/>
+        <Label Content="UserName" HorizontalAlignment="Left" Margin="171,112,0,0" VerticalAlignment="Top"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="171,161,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ClockLabel" HorizontalAlignment="Left" Margin="329,89,0,0" VerticalAlignment="Top" Width="99" Height="25"/>
+        <Label Content="GRAB MERCHANT" Foreground="Green" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold"/>
+
+
+    </Grid>
+</Window>
