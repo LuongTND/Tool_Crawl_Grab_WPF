@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -18,6 +19,7 @@ namespace ToolCrawl.ViewController
         private readonly DataGrabService _service;
         private readonly ApplicationDBContext _context;
         private CancellationTokenSource _cancellationTokenSource;
+        private System.Timers.Timer _restartTimer; // Timer để tự động dừng và bắt đầu lại
 
         public CrawlControls(ApplicationDBContext context)
         {
@@ -25,6 +27,10 @@ namespace ToolCrawl.ViewController
             _context = context; // Khởi tạo context
             _service = new DataGrabService(_context); // Khởi tạo service
 
+            // Cấu hình Timer tự động dừng và bắt đầu lại sau 2 tiếng = 7200000 ms
+            _restartTimer = new System.Timers.Timer(7200000); // 6 tiếng = 21600000 ms
+            _restartTimer.Elapsed += RestartTimerElapsed;
+            _restartTimer.AutoReset = true;
         }
         public void ShowMessage(string message)
         {
@@ -76,6 +82,9 @@ namespace ToolCrawl.ViewController
             // Khởi tạo token hủy để dừng quá trình sau này
             _cancellationTokenSource = new CancellationTokenSource();
             CancellationToken token = _cancellationTokenSource.Token;
+
+
+            _restartTimer.Start(); // Bắt đầu Timer
 
             // Chạy một tác vụ bất đồng bộ
             await Task.Run(async () =>
@@ -137,6 +146,8 @@ namespace ToolCrawl.ViewController
             // Gọi phương thức Cancel để hủy tác vụ
             _cancellationTokenSource?.Cancel();
 
+            _restartTimer.Stop(); // Dừng Timer khi dừng quá trình
+
             // Đổi màu của nút Stop để phản hồi việc dừng
             ButtonStop.Background = Brushes.Gray;
             ButtonStop.IsEnabled = false;
@@ -146,6 +157,21 @@ namespace ToolCrawl.ViewController
             ButtonStart.IsEnabled = true;
         }
 
+        private async void RestartTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                // Gọi Stop và Start lại trên giao diện chính
+                Stop(null, null);
+            });
+
+            await Task.Delay(180000); // Chờ 2 giây trước khi bắt đầu lại
+
+            Dispatcher.Invoke(() =>
+            {
+                Start(null, null);
+            });
+        }
 
     }
 }
